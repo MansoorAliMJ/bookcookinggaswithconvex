@@ -1,7 +1,19 @@
 'use client'
 import React, { useState } from 'react'
 
+import { useAction } from 'convex/react'
+import { api } from '@/convex/_generated/api'
+
 const page = () => {
+  const signUP = useAction(api.useractions.register)
+  const [username, setUserName] = useState('mansoor')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState(9632)
+  const [password, setPassword] = useState('')
+  const [preferredLanguage, setPreferredLanguage] = useState('en')
+  const [state, setSate] = useState('')
+  const [city, setCity] = useState('')
+  const [address, setAddress] = useState('')
   const [showSection2, setShowSection2] = useState(false)
 
   const handleNext = () => {
@@ -10,6 +22,23 @@ const page = () => {
 
   const handlePrevious = () => {
     setShowSection2(false)
+  }
+
+  const signUPHandler = async () => {
+    try {
+      await signUP({
+        username,
+        name,
+        phone,
+        password,
+        preferredLanguage,
+        state,
+        city,
+        address,
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -192,6 +221,7 @@ const page = () => {
               <button
                 type='submit'
                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                onClick={signUPHandler}
               >
                 Sign Up
               </button>

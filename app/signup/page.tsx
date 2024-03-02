@@ -26,16 +26,21 @@ const page = () => {
 
   const signUPHandler = async () => {
     try {
-      await signUP({
-        username,
-        name,
-        phone,
-        password,
-        preferredLanguage,
-        state,
-        city,
-        address,
-      })
+      const postData = {
+        test: 'mansoor',
+      }
+      const fetchOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Specify the content type as JSON
+          // Add any other headers as needed
+        },
+        body: JSON.stringify(postData), // Convert data to JSON string
+      }
+
+      const response = await fetch(
+        'https://zealous-leopard-593.convex.site/test'
+      )
     } catch (err) {
       console.log(err)
     }

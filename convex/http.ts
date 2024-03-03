@@ -1,14 +1,22 @@
 import { httpRouter } from 'convex/server'
 import { httpAction } from './_generated/server'
+import { internal } from './_generated/api'
 const http = httpRouter()
 
 http.route({
-  path: '/test',
-  method: 'GET',
+  path: '/register',
+  method: 'POST',
   handler: httpAction(async (ctx, request) => {
     try {
-      return new Response(null, {
+      const args = await request.json()
+
+      const data = await ctx.runMutation(internal.user.register, args)
+
+      return new Response(JSON.stringify(args), {
         status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
     } catch (err) {
       console.error(err)

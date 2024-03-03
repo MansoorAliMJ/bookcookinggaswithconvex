@@ -3,17 +3,18 @@ import React, { useState } from 'react'
 
 import { useAction } from 'convex/react'
 import { api } from '@/convex/_generated/api'
+import { UserSignUpRequired } from '@/app/types/types'
 
 const page = () => {
   const signUP = useAction(api.useractions.register)
-  const [username, setUserName] = useState('mansoor')
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState(9632)
-  const [password, setPassword] = useState('')
-  const [preferredLanguage, setPreferredLanguage] = useState('en')
-  const [state, setSate] = useState('')
-  const [city, setCity] = useState('')
-  const [address, setAddress] = useState('')
+  const [username, setUserName] = useState<string>('mansoor')
+  const [name, setName] = useState<string>('')
+  const [phone, setPhone] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [preferredLanguage, setPreferredLanguage] = useState<string>('en')
+  const [state, setState] = useState<string>('')
+  const [city, setCity] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
   const [showSection2, setShowSection2] = useState(false)
 
   const handleNext = () => {
@@ -24,25 +25,41 @@ const page = () => {
     setShowSection2(false)
   }
 
+  function checkRequiredFields<T extends Record<string, unknown>>(
+    requiredFields: T
+  ) {
+    for (const [fieldName, fieldValue] of Object.entries(requiredFields)) {
+      if (!fieldValue) {
+        throw new Error(`The field '${fieldName}' is missing or invalid.`)
+      }
+    }
+  }
+
   const signUPHandler = async () => {
     try {
-      const postData = {
-        test: 'mansoor',
-      }
-      const fetchOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Specify the content type as JSON
-          // Add any other headers as needed
-        },
-        body: JSON.stringify(postData), // Convert data to JSON string
+      const requiredFields = {
+        username,
+        name,
+        phone,
+        password,
+        preferredLanguage,
+        state,
+        city,
+        address,
       }
 
+      checkRequiredFields<UserSignUpRequired>(requiredFields)
+
       const response = await fetch(
-        'https://zealous-leopard-593.convex.site/test'
+        'https://zealous-leopard-593.convex.site/register',
+        {
+          method: 'POST',
+          body: JSON.stringify(requiredFields),
+        }
       )
     } catch (err) {
       console.log(err)
+      alert(err)
     }
   }
 
@@ -75,6 +92,9 @@ const page = () => {
                 id='username'
                 name='username'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => {
+                  setUserName(e.target.value)
+                }}
               />
             </div>
 
@@ -91,6 +111,9 @@ const page = () => {
                 id='name'
                 name='name'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => {
+                  setName(e.target.value)
+                }}
               />
             </div>
 
@@ -103,10 +126,13 @@ const page = () => {
                 Phone
               </label>
               <input
-                type='text'
+                type='number'
                 id='phone'
                 name='phone'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => {
+                  setPhone(e.target.value)
+                }}
               />
             </div>
 
@@ -123,6 +149,9 @@ const page = () => {
                 id='password'
                 name='password'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                }}
               />
             </div>
 
@@ -154,10 +183,10 @@ const page = () => {
                 id='language'
                 name='language'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => setPreferredLanguage(e.target.value)}
               >
-                <option value='english'>English</option>
-                <option value='spanish'>Spanish</option>
-                <option value='french'>French</option>
+                <option value='EN'>English</option>
+                <option value='AR'>Arabic</option>
               </select>
             </div>
 
@@ -173,6 +202,7 @@ const page = () => {
                 id='state'
                 name='state'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => setState(e.target.value)}
               >
                 <option value='state1'>State 1</option>
                 <option value='state2'>State 2</option>
@@ -192,6 +222,7 @@ const page = () => {
                 id='city'
                 name='city'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => setCity(e.target.value)}
               >
                 <option value='city1'>City 1</option>
                 <option value='city2'>City 2</option>
@@ -211,6 +242,7 @@ const page = () => {
                 id='address'
                 name='address'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                onChange={(e) => setAddress(e.target.value)}
               ></textarea>
             </div>
 

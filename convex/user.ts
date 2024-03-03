@@ -1,5 +1,6 @@
 import { v } from 'convex/values'
 import { internalMutation, query } from './_generated/server'
+import { internal } from './_generated/api'
 
 export const register = internalMutation({
   args: {

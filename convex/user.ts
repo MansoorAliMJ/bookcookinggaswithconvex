@@ -1,12 +1,11 @@
 import { v } from 'convex/values'
 import { internalMutation, query } from './_generated/server'
-import { internal } from './_generated/api'
 
 export const register = internalMutation({
   args: {
     username: v.string(),
     name: v.string(),
-    phone: v.number(),
+    phone: v.string(),
     password: v.string(),
     preferredLanguage: v.string(),
     state: v.string(),
@@ -14,6 +13,7 @@ export const register = internalMutation({
     address: v.optional(v.string()),
     token: v.optional(v.string()),
   },
+
   handler: async (ctx, args) => {
     return await ctx.db.insert('users', {
       ...args,

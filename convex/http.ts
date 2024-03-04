@@ -1,6 +1,7 @@
 import { httpRouter } from 'convex/server'
 import { httpAction } from './_generated/server'
 import { internal } from './_generated/api'
+
 const http = httpRouter()
 
 http.route({
@@ -14,9 +15,11 @@ http.route({
 
       return new Response(JSON.stringify(args), {
         status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: new Headers({
+          // e.g. https://mywebsite.com, configured on your Convex dashboard
+          'Access-Control-Allow-Origin': '*',
+          Vary: 'origin',
+        }),
       })
     } catch (err) {
       console.error(err)

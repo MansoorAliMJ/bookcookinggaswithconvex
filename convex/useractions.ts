@@ -5,7 +5,7 @@ export const register = action({
   args: {
     username: v.string(),
     name: v.string(),
-    phone: v.number(),
+    phone: v.string(),
     password: v.string(),
     preferredLanguage: v.string(),
     state: v.string(),

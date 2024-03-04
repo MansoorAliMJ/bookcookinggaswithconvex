@@ -11,7 +11,7 @@ const page = () => {
   const [name, setName] = useState<string>('')
   const [phone, setPhone] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [preferredLanguage, setPreferredLanguage] = useState<string>('en')
+  const [preferredLanguage, setPreferredLanguage] = useState<string>('')
   const [state, setState] = useState<string>('')
   const [city, setCity] = useState<string>('')
   const [address, setAddress] = useState<string>('')
@@ -29,6 +29,7 @@ const page = () => {
     requiredFields: T
   ) {
     for (const [fieldName, fieldValue] of Object.entries(requiredFields)) {
+      console.log(fieldName, fieldValue)
       if (!fieldValue) {
         throw new Error(`The field '${fieldName}' is missing or invalid.`)
       }
@@ -126,7 +127,7 @@ const page = () => {
                 Phone
               </label>
               <input
-                type='number'
+                type='text'
                 id='phone'
                 name='phone'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -185,6 +186,7 @@ const page = () => {
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 onChange={(e) => setPreferredLanguage(e.target.value)}
               >
+                <option value=''>Select</option>
                 <option value='EN'>English</option>
                 <option value='AR'>Arabic</option>
               </select>
@@ -204,6 +206,7 @@ const page = () => {
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 onChange={(e) => setState(e.target.value)}
               >
+                <option value=''>Select</option>
                 <option value='state1'>State 1</option>
                 <option value='state2'>State 2</option>
                 <option value='state3'>State 3</option>
@@ -224,6 +227,7 @@ const page = () => {
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 onChange={(e) => setCity(e.target.value)}
               >
+                <option value=''>Select</option>
                 <option value='city1'>City 1</option>
                 <option value='city2'>City 2</option>
                 <option value='city3'>City 3</option>

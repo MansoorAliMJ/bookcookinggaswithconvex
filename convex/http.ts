@@ -11,7 +11,7 @@ http.route({
     try {
       const args = await request.json()
 
-      const data = await ctx.runMutation(internal.user.register, args)
+      const data = await ctx.runAction(internal.useractions.register, args)
 
       return new Response(JSON.stringify(args), {
         status: 200,

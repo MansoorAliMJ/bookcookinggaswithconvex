@@ -1,5 +1,5 @@
-import { v } from 'convex/values'
-import { internalMutation, query } from './_generated/server'
+import { v } from "convex/values";
+import { internalMutation, query } from "./_generated/server";
 
 export const register = internalMutation({
   args: {
@@ -15,11 +15,11 @@ export const register = internalMutation({
   },
 
   handler: async (ctx, args) => {
-    return await ctx.db.insert('users', {
+    return await ctx.db.insert("users", {
       ...args,
       active: true,
-      role: 'user',
-      country: 'KW',
-    })
+      role: "user",
+      country: "KW",
+    });
   },
-})
+});

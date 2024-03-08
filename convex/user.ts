@@ -10,8 +10,11 @@ export const register = internalMutation({
     preferredLanguage: v.string(),
     state: v.string(),
     city: v.string(),
+    area: v.optional(v.string()),
+    block: v.optional(v.string()),
     address: v.optional(v.string()),
     token: v.optional(v.string()),
+    role: v.string(),
   },
 
   handler: async (ctx, args) => {
@@ -19,7 +22,6 @@ export const register = internalMutation({
     return await ctx.db.insert('users', {
       ...args,
       active: true,
-      role: 'user',
       country: 'KW',
     })
   },

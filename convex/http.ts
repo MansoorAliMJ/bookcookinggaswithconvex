@@ -5,14 +5,44 @@ import { internal } from './_generated/api'
 const http = httpRouter()
 
 http.route({
-  path: '/register',
+  path: '/user-register',
   method: 'POST',
   handler: httpAction(async (ctx, request) => {
     try {
       const args = await request.json()
 
-      const data = await ctx.runAction(internal.useractions.register, args)
+      const data = await ctx.runAction(internal.useractions.register, {
+        ...args,
+        role: 'user',
+      })
 
+      return new Response(JSON.stringify(args), {
+        status: 200,
+        headers: new Headers({
+          // e.g. https://mywebsite.com, configured on your Convex dashboard
+          'Access-Control-Allow-Origin': '*',
+          Vary: 'origin',
+        }),
+      })
+    } catch (err) {
+      console.error(err)
+      return new Response('something went wrong', {
+        status: 400,
+      })
+    }
+  }),
+})
+
+http.route({
+  path: '/delivery-register',
+  method: 'POST',
+  handler: httpAction(async (ctx, request) => {
+    try {
+      const args = await request.json()
+      const data = await ctx.runAction(internal.useractions.register, {
+        ...args,
+        role: 'delevery',
+      })
       return new Response(JSON.stringify(args), {
         status: 200,
         headers: new Headers({

@@ -13,11 +13,24 @@ export const register = internalAction({
     preferredLanguage: v.string(),
     state: v.string(),
     city: v.string(),
+    area: v.string(),
+    block: v.string(),
     address: v.optional(v.string()),
+    role: v.string(),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args: any) => {
     // do something with `args.a` and `args.b`
     try {
+      for (const prop in args) {
+        if (
+          args[prop] === null ||
+          args[prop] === undefined ||
+          args[prop] === ''
+        ) {
+          throw new Error(`please ${prop} enter the value`)
+        }
+      }
+
       let password = await bcrypt.hash(args.password, 8)
 
       const token = jwt.sign(

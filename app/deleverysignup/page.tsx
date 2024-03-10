@@ -26,12 +26,23 @@ const page = () => {
   function checkRequiredFields<T extends Record<string, unknown>>(
     requiredFields: T
   ) {
-    for (const [fieldName, fieldValue] of Object.entries(requiredFields)) {
-      console.log(fieldName, fieldValue)
-      if (!fieldValue) {
-        throw new Error(`The field '${fieldName}' is missing or invalid.`)
+    for (const prop in requiredFields) {
+      if (
+        prop !== 'block' &&
+        prop !== 'address' &&
+        (requiredFields[prop] === null ||
+          requiredFields[prop] === undefined ||
+          requiredFields[prop] === '')
+      ) {
+        throw new Error(`Please enter a value for ${prop}`)
       }
     }
+    // for (const [fieldName, fieldValue] of Object.entries(requiredFields)) {
+    //   console.log(fieldName, fieldValue)
+    //   if (!fieldValue) {
+    //     throw new Error(`The field '${fieldName}' is missing or invalid.`)
+    //   }
+    // }
   }
 
   const signUPHandler = async () => {
@@ -52,7 +63,7 @@ const page = () => {
       checkRequiredFields<UserSignUpRequired>(requiredFields)
 
       const response = await fetch(
-        'https://zealous-leopard-593.convex.site/user-register',
+        'https://zealous-leopard-593.convex.site/delivery-register',
         {
           method: 'POST',
           body: JSON.stringify(requiredFields),
@@ -64,7 +75,7 @@ const page = () => {
       console.log(responseData)
     } catch (err) {
       console.log(err)
-      // alert(err)
+      alert(err)
     }
   }
 
